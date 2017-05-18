@@ -3,6 +3,7 @@ layout: post
 category: Spring Cloud
 title: "Spring Cloud Config Overview Series Part 1: Standalone GIT Backend"
 author: Enrique Recarte
+published: false
 ---
 
 I haven't written a post in a very long time and I thought I'd get back on track by announcing I've just contributed for the
