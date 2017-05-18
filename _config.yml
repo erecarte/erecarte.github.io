@@ -1,0 +1,29 @@
+# Permalinks
+permalink:      /:year-:month-:day/:title
+
+# Setup
+title:          Enrique Recarte
+paginate:       5
+baseurl:        ""
+url: "http://www.enriquerecarte.com"
+
+# Assets
+sass:
+  sass_dir:     _sass
+  style:        :compressed
+
+# Build settings
+markdown:       kramdown
+
+# About
+author:
+  name:         Enrique Recarte
+  url:          http://www.enriquerecarte.com
+
+# Custom vars
+github_username:  erecarte
+linkedin_url: https://www.linkedin.com/in/erecarte
+
+# Gems
+gems:
+  - jekyll-paginate

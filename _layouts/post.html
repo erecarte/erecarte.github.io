@@ -1,0 +1,34 @@
+---
+layout: default
+---
+
+<div class="post">
+
+    <h1 class="post-title">{{ page.title }}</h1>
+    <div class="post-line"></div>
+    <div class="post-info">
+        <span>Written by&nbsp;</span>{{ page.author }}
+
+        {% if page.date %}
+        <br>
+        <span>on&nbsp;</span>
+        <time datetime="{{ page.date }}">{{ page.date | date: "%B %d, %Y" }}</time>
+        {% endif %}
+    </div>
+
+    {{ content }}
+
+</div>
+
+<div class="pagination">
+    {% if page.next.url %}
+    <a href="{{ page.next.url | prepend: site.url }}" class="left arrow pagination-text">&#8592; Previous </a>
+    {% endif %}
+    {% if page.previous.url %}
+    <a href="{{ page.previous.url | prepend: site.url }}" class="right arrow pagination-text">Next &#8594;</a>
+    {% endif %}
+
+    <a href="#" class="pagination-text">&#8593; Top</a>
+</div>
+
+{% include comments.html %}

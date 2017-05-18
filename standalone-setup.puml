@@ -1,0 +1,32 @@
+@startuml
+skinparam monochrome true
+'scale 10
+
+'left to right direction
+
+rectangle "GIT Repo"
+rectangle "Spring Cloud Config Server"
+rectangle "RabbitMQ"
+
+cloud "Application A" {
+  rectangle "RefreshListener" as RefreshListenerA
+  rectangle "Spring Cloud Config Client" as SpringCloudConfigA
+  [RefreshListenerA] -u-> [SpringCloudConfigA]: Refresh
+}
+
+cloud "Application B" {
+  rectangle "RefreshListener" as RefreshListenerB
+  rectangle "Spring Cloud Config Client" as SpringCloudConfigB
+  [RefreshListenerB] -u-> [SpringCloudConfigB]: Refresh
+}
+
+
+[GIT Repo] <-u- [Spring Cloud Config Server]: GIT Pull
+[GIT Repo] --> [Spring Cloud Config Server] : Webhook POST /monitor
+[Spring Cloud Config Server] -u-> [RabbitMQ]: Refresh event
+[SpringCloudConfigA] -u-> [Spring Cloud Config Server]
+[SpringCloudConfigB] --> [Spring Cloud Config Server]
+[RabbitMQ] -l-> [RefreshListenerA]: Refresh event
+[RabbitMQ] -l-> [RefreshListenerB]: Refresh event
+
+@enduml

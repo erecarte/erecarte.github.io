@@ -1,0 +1,32 @@
+---
+layout: default
+title: "Contact"
+description: "Want to get in touch?"
+header-photo: "paris.jpg"
+---
+
+<p>If you want to get in touch with me, please fill out the form below to send me a message and I will try to get back to you!</p>
+<!-- Contact Form - Enter your email address on line 19 of the mail/contact_me.php file to make this form work. -->
+<!-- WARNING: Some web hosts do not allow emails to be sent through forms to common mail hosts like Gmail or Yahoo. It's recommended that you use a private domain email address! -->
+<!-- NOTE: To use the contact form, your site must be on a live web host with PHP! The form will not work locally! -->
+
+<div class="contact">
+    <form method="post" name="sentMessage" id="contactForm" action="//formspree.io/recarte.enrique@gmail.com">
+        <div class="contact-fields">
+            <label>Name</label>
+            <input type="text" class="form-control" name="name" required
+                   data-validation-required-message="Please enter your name.">
+            <label>Email Address</label>
+            <input type="email" class="form-control" name="_replyto" required
+                   data-validation-required-message="Please enter your email address.">
+            <label>Message</label>
+            <textarea rows="5" class="form-control" name="message" required
+                      data-validation-required-message="Please enter a message."></textarea>
+            <p class="help-block text-danger"></p>
+        </div>
+        <div class="contact-submit">
+            <input type="submit" value="Submit">
+        </div>
+
+    </form>
+</div>
