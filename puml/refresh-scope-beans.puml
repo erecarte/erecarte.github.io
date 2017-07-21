@@ -1,0 +1,31 @@
+@startuml
+skinparam monochrome true
+hide footbox
+
+participant SampleService
+participant Proxy <<AnnotatedProperties>>
+participant Initial <<AnnotatedProperties>>
+
+
+== First Interaction with Proxy ==
+SampleService -> Proxy: getFirstProperty
+Proxy -> Initial:getFirstProperty
+Initial -> Proxy: "Initial Value"
+Proxy -> SampleService: "Initial Value"
+
+...
+
+== Refresh Event Happens ==
+RefreshScope -> Proxy: Refresh Event
+Proxy -> Proxy: Invalidate Initial
+...
+== New Interaction with Proxy ==
+SampleService -> Proxy: getFirstProperty
+create Refreshed <<AnnotatedProperties>>
+
+Proxy -> Refreshed:getFirstProperty
+Refreshed -> Proxy: "New Value"
+Proxy -> SampleService: "New Value"
+
+participant RefreshScope
+@enduml

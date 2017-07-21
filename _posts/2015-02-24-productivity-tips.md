@@ -1,7 +1,8 @@
 ---
 layout: post
 author: Enrique Recarte
-category: Productivity
+tags: 
+   - Productivity
 title: "Please be productive!"
 ---
 
@@ -50,7 +51,18 @@ a custom command like `.clone name-of-the-project` which will resolve the URL an
 IntelliJ, which recognises it's a Maven POM file, and imports it automatically. This saves me quite a lot of time.
 This is an example of what that bash script would look for cloning one of my Github repositories clone function:
 
-<script src="https://gist.github.com/erecarte/2d449464fab3e65dc88404097aaf40bf.js"></script>
+```bash
+function .cloneGithub() {
+	reponame=$1
+	target=/dev/projects/trunk/$reponame
+
+	echo $reponame $target
+	git clone "https://github.com/erecarte/$reponame.git"
+		
+	cd $reponame
+	cygstart pom.xml
+}
+```
 
 2. Once I find the pom.xml on which to add the junit dependency, I type `dep` and press `Tab`, which causes IntelliJ to add
 a new dependency, asking you which one you want to add. If you start typing junit, it will resolve it for you.

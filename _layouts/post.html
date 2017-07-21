@@ -22,13 +22,58 @@ layout: default
 
 <div class="pagination">
     {% if page.previous.url %}
-    <a href="{{ page.previous.url | prepend: site.url }}" class="left arrow pagination-text">&#8592; Older Post </a>
+        <a href="{{ page.previous.url | prepend: site.url }}" class="left arrow pagination-text">&#8592; Older Post</a>
     {% endif %}
     {% if page.next.url %}
-    <a href="{{ page.next.url | prepend: site.url }}" class="right arrow pagination-text">Newer Post &#8594;</a>
+        <a href="{{ page.next.url | prepend: site.url }}" class="right arrow pagination-text">Newer Post &#8594;</a>
+    {% endif %}
+    <a href="#" class="pagination-text">&#8593; Top</a>
+</div>
+
+
+{% assign related_post_count = 0 %}
+    {% for post in site.posts %}
+        {% if post.url != page.url %}
+            {% for tag in page.tags %}
+                {% if post.tags contains tag %}
+                    {% assign related_post_count = related_post_count | plus: 1 %}
+                    {% break %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+
+
+{% unless related_post_count == 0 %}
+<div class="related">
+    <h2>Related Posts</h2>
+    <ul class="related-posts">
+        {% for post in site.posts limit: 6 %}
+            {% if post.url != page.url %}
+                {% for tag in page.tags %}
+                    {% if post.tags contains tag %}
+                        <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+                        {% break %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+{% endunless %}
+
+<div class="tags">
+    {% if page.tags == null %}
+    Not tagged.
+    {% else %}
+    <h2>Tags</h2>
+    <ul style="margin-top:0px;">
+        {% for tag in page.tags %}
+        <li><a href="/tags#{{ tag | slugify }}-ref">{{ tag}}</a></li>
+        {% endfor %}
+    </ul>
     {% endif %}
 
-    <a href="#" class="pagination-text">&#8593; Top</a>
 </div>
 
 {% include comments.html %}

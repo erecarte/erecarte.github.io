@@ -12,7 +12,7 @@ title: Home
         <div class="catalogue-line"></div>
 
         <p>
-          {{ post.excerpt}}
+          {{ post.excerpt |  strip_html }}
         </p>
 
       </div>
@@ -20,12 +20,13 @@ title: Home
   {% endfor %}
 </div>
 
+
 <div class="pagination">
-  {% if paginator.previous_page %}
-    <a href="{{ paginator.previous_page_path | prepend: site.url }}" class="left arrow pagination-text">&#8592; Newer</a>
+  {% if paginator.next_page_path %}
+    <a href="{{ paginator.next_page_path | prepend: site.url }}" class="left arrow pagination-text">&#8592; Older</a>
   {% endif %}
-  {% if paginator.next_page %}
-    <a href="{{ paginator.next_page_path | prepend: site.url }}" class="right arrow pagination-text">Older &#8594;</a>
+  {% if paginator.previous_page_path %}
+    <a href="{{ paginator.previous_page_path | prepend: site.url }}" class="right arrow pagination-text">Newer &#8594;</a>
   {% endif %}
 
   <span class="pagination-text page-number">Page {{ paginator.page }}</span>

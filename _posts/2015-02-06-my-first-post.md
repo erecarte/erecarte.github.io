@@ -1,6 +1,6 @@
 ---
 layout: post
-category: Blogging
+tags:
 author: Enrique Recarte
 title: "My first blog. Why I think it's a good idea!"
 ---

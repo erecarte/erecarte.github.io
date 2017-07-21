@@ -1,9 +1,8 @@
 ---
 layout: post
-category: Architecture
+tags: 
+   - Architecture
 title: "Enforcing Hexagonal Architectures with Maven"
-"header-photo": paris.jpg
-published: true
 author: Enrique Recarte
 ---
 

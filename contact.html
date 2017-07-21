@@ -2,7 +2,6 @@
 layout: default
 title: "Contact"
 description: "Want to get in touch?"
-header-photo: "paris.jpg"
 ---
 
 <p>If you want to get in touch with me, please fill out the form below to send me a message and I will try to get back to you!</p>
@@ -14,14 +13,11 @@ header-photo: "paris.jpg"
     <form method="post" name="sentMessage" id="contactForm" action="//formspree.io/recarte.enrique@gmail.com">
         <div class="contact-fields">
             <label>Name</label>
-            <input type="text" class="form-control" name="name" required
-                   data-validation-required-message="Please enter your name.">
+            <input type="text" class="form-control" name="name" required>
             <label>Email Address</label>
-            <input type="email" class="form-control" name="_replyto" required
-                   data-validation-required-message="Please enter your email address.">
+            <input type="email" class="form-control" name="_replyto" required>
             <label>Message</label>
-            <textarea rows="5" class="form-control" name="message" required
-                      data-validation-required-message="Please enter a message."></textarea>
+            <textarea rows="5" class="form-control" name="message" required></textarea>
             <p class="help-block text-danger"></p>
         </div>
         <div class="contact-submit">
