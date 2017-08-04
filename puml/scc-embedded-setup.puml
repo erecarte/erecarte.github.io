@@ -1,0 +1,31 @@
+@startuml
+skinparam monochrome true
+
+node "Client Application A" {
+  "RefreshEndpoint" as [RefreshEndpointA]
+  "Spring Cloud Config Server" as [SpringCloudConfigServerA]
+  [RefreshEndpointA] -d-> [SpringCloudConfigServerA]: Refresh
+}
+
+node "Client Application B" {
+  "RefreshEndpoint" as [RefreshEndpointB]
+  "Spring Cloud Config Server" as [SpringCloudConfigServerB]
+  [RefreshEndpointB] -d-> [SpringCloudConfigServerB]: Refresh
+}
+
+node "Client Application C" {
+  "RefreshEndpoint" as [RefreshEndpointC]
+  "Spring Cloud Config Server" as [SpringCloudConfigServerC]
+  [RefreshEndpointC] -d-> [SpringCloudConfigServerC]: Refresh
+}
+
+
+node "Git Server" {
+   [Git Repository]
+}
+
+[SpringCloudConfigServerA] -d-> [Git Repository]: Git pull
+[SpringCloudConfigServerB] -d-> [Git Repository]: Git pull
+[SpringCloudConfigServerC] -d-> [Git Repository]: Git pull
+
+@enduml

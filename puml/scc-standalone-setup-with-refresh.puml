@@ -1,0 +1,32 @@
+@startuml
+skinparam monochrome true
+'scale 10
+
+node "Client Application" {
+  "RefreshListener" as [RefreshListenerA]
+  "RefreshEndpoint" as [RefreshEndpointA]
+  "Spring Cloud Config Client" as [SpringCloudConfigA]
+  [RefreshListenerA] -d-> [SpringCloudConfigA]: Refresh
+  [RefreshEndpointA] -d-> [SpringCloudConfigA]: Refresh
+}
+
+node "Server Application" {
+   [Spring Cloud Config Server]
+   [Spring Cloud Config Monitor]
+}
+
+node "Git Server" {
+   [Git Repository]
+}
+
+node "RabbitMQ" {
+   [Spring Cloud Bus]
+}
+
+[Git Repository] <-d- [Spring Cloud Config Server]: Git Pull
+[Git Repository] -u-> [Spring Cloud Config Monitor] : POST /monitor
+[Spring Cloud Config Monitor] -r-> [Spring Cloud Bus]
+[SpringCloudConfigA] -d-> [Spring Cloud Config Server]: Get config
+[Spring Cloud Bus] --> [RefreshListenerA]: RefreshRemoteApplicationEvent
+
+@enduml

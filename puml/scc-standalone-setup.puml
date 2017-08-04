@@ -1,0 +1,38 @@
+@startuml
+skinparam monochrome true
+'scale 10
+
+node "Client Application A" {
+  "RefreshEndpoint" as [RefreshEndpointA]
+  "Spring Cloud Config Client" as [SpringCloudConfigA]
+  [RefreshEndpointA] -d-> [SpringCloudConfigA]: Refresh
+}
+
+node "Client Application B" {
+  "RefreshEndpoint" as [RefreshEndpointB]
+  "Spring Cloud Config Client" as [SpringCloudConfigB]
+  [RefreshEndpointB] -d-> [SpringCloudConfigB]: Refresh
+}
+
+node "Client Application C" {
+  "RefreshEndpoint" as [RefreshEndpointC]
+  "Spring Cloud Config Client" as [SpringCloudConfigC]
+  [RefreshEndpointC] -d-> [SpringCloudConfigC]: Refresh
+}
+
+node "Server Application" {
+   [Spring Cloud Config Server]
+}
+
+
+node "Git Server" {
+   [Git Repository]
+}
+
+[Git Repository] <-u- [Spring Cloud Config Server]: Git pull
+
+[SpringCloudConfigA] -d-> [Spring Cloud Config Server]: Get config
+[SpringCloudConfigB] -d-> [Spring Cloud Config Server]: Get config
+[SpringCloudConfigC] -d-> [Spring Cloud Config Server]: Get config
+
+@enduml
