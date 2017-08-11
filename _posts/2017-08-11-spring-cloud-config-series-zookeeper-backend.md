@@ -6,7 +6,7 @@ title: "Spring Cloud Config Series Part 3: Zookeeper Backend"
 author: Enrique Recarte
 ---
 
-In the next part of the series, we take a look at how we can use Spring Cloud Config with [Zookeeper](https://zookeeper.apache.org/) to manage
+In this part of the series, we take a look at how we can use Spring Cloud Config with [Zookeeper](https://zookeeper.apache.org/) to manage
 our configuration. 
 
 # Introduction
@@ -15,14 +15,12 @@ I've always found it hard to define what Zookeeper is. This is the definition gi
 > ZooKeeper is a centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services.
 
 In short, the way I think about Zookeeper, is basically a system that stores information and makes sure it's consistent and synchronized
-across distributed systems. What kind of information you store in it, is up to you. You could store some information which will
+across distributed systems. What kind of information you store in it, is up to you. You could, for example, store some information which will
 help with [Leadership Election](https://zookeeper.apache.org/doc/trunk/recipes.html#sc_leaderElection) or implement [Distributed
-Transactions](https://zookeeper.apache.org/doc/trunk/recipes.html#sc_recipes_twoPhasedCommit).
-
-In our case, we are going to use it to store our application configuration.
+Transactions](https://zookeeper.apache.org/doc/trunk/recipes.html#sc_recipes_twoPhasedCommit). In our case, we are going to use it to store our application configuration.
 
 # Using Zookeeper as the backend
-Zookeepers stores its data in something called [ZNodes](https://zookeeper.apache.org/doc/r3.1.2/zookeeperProgrammers.html#ch_zkDataModel). You can think
+Zookeeper stores its data in something called [ZNodes](https://zookeeper.apache.org/doc/r3.1.2/zookeeperProgrammers.html#ch_zkDataModel). You can think
 of these ZNodes as a filesystem. The way a ZNode is identified is very similar to files as well, so for example, you can have a ZNode
 identified by `/config/ZookeeperSampleApplication/server.port` which can contain a value like `8081`. 
 
@@ -43,6 +41,8 @@ then your ZNodes containing configuration (like folders) would look something li
 /config/ZookeeperSampleApplication,PROD/
 /config/ZookeeperSampleApplication,UAT/
 /config/ZookeeperSampleApplication/
+/config/application,PROD/
+/config/application,UAT/
 /config/application/
 ```
 
@@ -55,21 +55,19 @@ property.
 that specific profile. This is equivalent to the `{application-name}-{profile}.properties` file in the Git solution. By default, 
 you separate the profile with a comma, though you can change this by setting `spring.cloud.zookeeper.config.profile-separator`. For
 example, if you set it to `-`, then your ZNode would be `/config/ZookeeperSampleApplication-UAT`.
-- Finally, `/config/application` contains the configuration that applies to all applications. This ZNode is also configurable by setting
+- The `/config/application` ZNode contains the configuration that applies to all applications. This ZNode is also configurable by setting
 the property `spring.cloud.zookeeper.config.defaultContext`.
-- The one thing that is not possible compared to the Git solution is that you can't have configuration that applies
-to all applications for one profile, so for example if you wanted to declare the global URI for some service and you always want it to be the
-same for all applications in the UAT environment, then you couldn't just declare it in one ZNode, while you could
-declare it in a `application-UAT.properties` file in Git.
+- Finally, if you want to configure something for all applications for a given profile, for example, the logging level for all applications in the
+UAT environment, then you should define the properties under the `/config/application,{profile}` ZNode.
 
-To be more specific, let us look at a more concrete example. If you wanted to define the logging level (confgured in Spring
+To be more specific, let us look at a more concrete example. If you wanted to define the logging level (configured in Spring
 Boot by setting the property `logging.level.ROOT`) to be different per environment for your application, as well
 as defining defaults for both your application (when the profile is not matched) and any other application, your ZNode tree would look like this:
 
 ![Exhibitor ZNode Tree]({{ site.url }}/img/exhibitor-example.jpg)
 
 You can see that each of the ZNodes containing properties has a property `logging.level.ROOT` defined, and for the selected ZNode,
-which configures the UAT profile, the value is `DEBUG` (look at the "Data as String" field)
+which configures the UAT profile for our application, the value is `DEBUG` (look at the "Data as String" field)
 
 ## Architecture Overview
 The Architecture for this setup is a bit simplified compared to the one we saw in the [previous post]({% post_url 2017-08-04-spring-cloud-config-series-git-backend %}) for the Git setup. 
@@ -127,8 +125,8 @@ already uses Zookeeper.
 
 Having said that, I think Zookeeper has a few drawbacks as a configuration management system:
 
-- It's quite a complex system. I've read quite a bit of its documentation, and I still don't have a very clear idea of what it is. If you haven't used
-it yet, I think you should make sure someone in your team or company knows it quite well.
+- It's quite a complex system. I've read quite a bit of its documentation, and I still don't have a very clear idea of what it is and how it works internally. If you haven't used
+it before, I think you should make sure someone in your team or company knows it quite well.
 - It does not have a User Interface by default. It does have some command line utilities, but managing all your configuration in Zookeeper without a
 proper User Interface can be quite painful. There are some UIs around, like [Exhibitor](https://github.com/soabase/exhibitor/wiki) shown in the
 previous example, [zkui](https://github.com/echoma/zkui) or [zk-web](https://github.com/qiuxiafei/zk-web).
