@@ -1,0 +1,23 @@
+@startuml
+skinparam monochrome true
+'scale 10
+
+node "Application Node A" {
+   [Application A] --> [Consul Client Agent A]
+}
+
+node "Application Node B" {
+   [Application B] --> [Consul Client Agent B]
+}
+
+node "Consul Servers" {
+   [Consul Server Agent A] as "Consul Server Follower"
+   [Consul Server Agent B] as "Consul Server Follower"
+   [Consul Client Agent A] --> [Consul Server Agent A]
+   [Consul Client Agent B] --> [Consul Server Agent B]
+   [Consul Server Agent A] <-r-> [Consul Server Leader]
+   [Consul Server Agent B] <-l-> [Consul Server Leader]
+}
+   [Consul Client Agent B] <-r-> [Consul Client Agent A]
+
+@enduml
